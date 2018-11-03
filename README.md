@@ -1,13 +1,46 @@
-[![Gem](https://img.shields.io/gem/v/react-rails.svg?style=flat-square)](http://rubygems.org/gems/react-rails)
-[![Build Status](https://img.shields.io/travis/reactjs/react-rails/master.svg?style=flat-square)](https://travis-ci.org/reactjs/react-rails)
-[![Gemnasium](https://img.shields.io/gemnasium/reactjs/react-rails.svg?style=flat-square)](https://gemnasium.com/reactjs/react-rails)
-[![Code Climate](https://img.shields.io/codeclimate/github/reactjs/react-rails.svg?style=flat-square)](https://codeclimate.com/github/reactjs/react-rails)
-[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/reactjs/react-rails.svg?style=flat-square)](https://codeclimate.com/github/reactjs/react-rails/coverage)
+# react-rails-stupid
 
-* * *
+the call
+`react_component 'Button', text: 'click me'`
 
-# react-rails
+ensures some html: `<div data-react-class="Button" data-react-props="{...}"/>`
 
+next, you can use separeted frontend with a helper
+
+<details><summary>the helper</summary>
+  
+```js
+function get(obj, path){ return path.split('.').reduce((obj, key) => obj[key], obj) }
+
+[...document.querySelectorAll('[data-react-class]')].forEach((root) => {
+	ReactDOM.render(
+		React.createElement(
+			get(window, root.dataset.reactClass),
+			JSON.parse(root.dataset.reactProps)
+		),
+		root
+	)
+})
+```
+
+</details>
+
+`window.Button` expected
+
+also, you can use nested objects as a react components like `User.Title`
+
+usage:
+
+js: `window.User = { Title };`
+
+rb: `react_component 'User.Title', name: 'Evan Smith'`
+
+
+<br/><br/><br/><br/>
+
+
+
+# Original readme
 
 `react-rails` makes it easy to use [React](http://facebook.github.io/react/) and [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html)
 in your Ruby on Rails (3.2+) application. `react-rails` can:
