@@ -26,11 +26,6 @@ module React
         options = {:tag => options} if options.is_a?(Symbol)
         props = camelize_props_key(props) if camelize_props_switch
 
-        prerender_options = options[:prerender]
-        if prerender_options
-          block = Proc.new{ concat React::ServerRendering.render(name, props, prerender_options) }
-        end
-
         html_options = options.reverse_merge(:data => {})
         html_options[:data].tap do |data|
           data[:react_class] = name
@@ -39,7 +34,7 @@ module React
         html_tag = html_options[:tag] || :div
 
         # remove internally used properties so they aren't rendered to DOM
-        html_options.except!(:tag, :prerender)
+        html_options.except!(:tag)
 
         content_tag(html_tag, '', html_options, &block)
       end
